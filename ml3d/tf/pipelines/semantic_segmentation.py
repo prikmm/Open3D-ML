@@ -163,6 +163,7 @@ class SemanticSegmentation(BasePipeline):
         for idx in tqdm(range(len(test_split)), desc='test'):
             attr = test_split.get_attr(idx)
             data = test_split.get_data(idx)
+            data['label'] = data['label'].astype(np.int32)
             results = self.run_inference(data)
             scores, labels = Loss.filter_valid_label(results['predict_scores'],
                                                      data['label'])
