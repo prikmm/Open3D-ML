@@ -154,9 +154,11 @@ class TFDataloader():
                 map_func=self.transform,
                 num_parallel_calls=tf.data.experimental.AUTOTUNE)
 
-        if (self.model is None or 'batcher' not in self.model_cfg.keys() or
-                self.model_cfg.batcher == 'DefaultBatcher'):
-            loader = loader.batch(batch_size)
+        # Removing Batching code as SparseConvLayers are incompatible with 3D Tensors.
+        #
+        #if (self.model is None or 'batcher' not in self.model_cfg.keys() or
+        #        self.model_cfg.batcher == 'DefaultBatcher'):
+        #    loader = loader.batch(batch_size)
 
         length = len(self.dataset) / batch_size + 1 if len(
             self.dataset) % batch_size else len(self.dataset) / batch_size
